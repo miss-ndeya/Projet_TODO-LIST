@@ -11,22 +11,26 @@ function App() {
   const addTodo = (e) => {
     e.preventDefault();
 
-    if (todoIsEdit) {
-      setTodoListe((prev) =>
-        prev.map((item) =>
-          item.id === todoIsEdit ? { ...item, value: todo } : item
-        )
-      );
-      setTodoIsEdit("");
+    if (todo.trim() !== "") {
+      if (todoIsEdit) {
+        setTodoListe((prev) =>
+          prev.map((item) =>
+            item.id === todoIsEdit ? { ...item, value: todo } : item
+          )
+        );
+        setTodoIsEdit("");
+      } else {
+        const newTodo = {
+          id: Math.floor(Math.random() * 1000),
+          value: todo,
+        };
+  
+        setTodoListe((prev) => [...prev, newTodo]);
+      }
+      setTodo("");
     } else {
-      const newTodo = {
-        id: Math.floor(Math.random() * 1000),
-        value: todo,
-      };
-
-      setTodoListe((prev) => [...prev, newTodo]);
+      alert("Merci de remplir le champ")
     }
-    setTodo("");
   };
 
   const deleteTodo = (todoId) => {
@@ -53,6 +57,7 @@ function App() {
             className="form-control"
             value={todo}
             onChange={(e) => setTodo(e.target.value)}
+            required
           />
         </div>
         <button type="submit" className="btn btn-primary w-100">
